@@ -3,18 +3,10 @@ module Main where
 
 import System.Console.CmdArgs
 
-import Ast
-import qualified Parser as P
-import qualified Interp as I
-
 data Search = DFS | BFS
             deriving (Show, Eq, Data, Typeable)
 instance Default Search where
   def = DFS
-
-searchFunction DFS = I.dfs
-searchFunction BFS = I.bfs
-
 
 data Options =
   Options { search  :: Search
@@ -40,12 +32,5 @@ checkOptions = do
       _ -> return opts
 
 main = do
-  opts <- checkOptions
-  Right p <- P.clausesFromFile $ clauses opts
-  let searchF = searchFunction $ search opts
-      Right g = P.goalFromString $ goal opts
-      t = I.makeReportTree p g
-      solutions = searchF t
-  case solutions of
-    [] -> print "no solutions"
-    _  -> mapM_ print solutions
+  _ <- checkOptions
+  putStrLn "no."
